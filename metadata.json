@@ -1,0 +1,7 @@
+{
+  "name": "Polaroid Snap",
+  "description": "A retro-style instant camera app that lets you capture moments, add AI-generated captions, and save them as classic polaroid prints.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
