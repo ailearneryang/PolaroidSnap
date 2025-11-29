@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  # 当推送到main分支时触发工作流
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置Node.js环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 4. 构建项目
+      - name: Build project
+        run: npm run build
+        env:
+          # 传递环境变量（如果需要）
+          API_KEY: ${{ secrets.API_KEY }}
+
+      # 5. 部署到GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          # 使用GitHub提供的令牌
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 部署dist文件夹中的内容
+          publish_dir: ./dist
+          # 配置提交信息
+          commit_message: 'Auto deploy from GitHub Actions'
